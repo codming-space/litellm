@@ -75,8 +75,7 @@ jobs:
             echo "Override files copied successfully"
 
           else
-            echo "No override directory found for ${{ github.event.inputs.tag }}"
-            exit 1
+            echo "No override directory found for ${{ github.event.inputs.tag }}, proceeding with original upstream code"
           fi
 
       - name: Set working directory
