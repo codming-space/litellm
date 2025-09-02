@@ -20,13 +20,13 @@ jobs:
       matrix:
         include:
           - platform: linux/amd64
-            base_image: cgr.dev/chainguard/python:latest-dev
+            dockerfile: Dockerfile
             arch_suffix: amd64
           - platform: linux/arm64
-            base_image: cgr.dev/chainguard/python:latest-dev
+            dockerfile: Dockerfile
             arch_suffix: arm64
           - platform: linux/s390x
-            base_image: python:3.13.7-alpine
+            dockerfile: Dockerfile-linuxone
             arch_suffix: linuxone
     steps:
       - name: Set up environment
@@ -119,14 +119,12 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./upstream
+          file: ${{ matrix.dockerfile }}
           push: true
           tags: |
             ${{ env.IMAGE_PREFIX }}-${{ matrix.arch_suffix }}:${{ github.event.inputs.tag }}
             ${{ env.IMAGE_PREFIX }}-${{ matrix.arch_suffix }}:latest
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ matrix.platform }}
-          build-args: |
-            LITELLM_BUILD_IMAGE=${{ matrix.base_image }}
-            LITELLM_RUNTIME_IMAGE=${{ matrix.base_image }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
