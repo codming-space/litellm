@@ -26,9 +26,9 @@ jobs:
           - platform: linux/arm64
             dockerfile: Dockerfile
             arch_suffix: arm64
-          - platform: linux/s390x
-            dockerfile: Dockerfile-linuxone
-            arch_suffix: linuxone
+          # - platform: linux/s390x
+          #   dockerfile: Dockerfile-linuxone
+          #   arch_suffix: linuxone
     steps:
       - name: Set up environment
         run: |
